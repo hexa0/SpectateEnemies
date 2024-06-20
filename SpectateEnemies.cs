@@ -47,9 +47,15 @@ namespace SpectateEnemy
             Plugin.Inputs.ZoomOutKey.performed += OnZoomOutPressed;
             Plugin.Inputs.ZoomInKey.performed += OnZoomInPressed;
         }
+        private bool ShouldEatInput()
+        {
+            PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
+            return !player.inTerminalMenu && !player.isTypingChat && !player.quickMenuManager.isMenuOpen;
+        }
 
         private void OnSwapKeyPressed(InputAction.CallbackContext context)
         {
+            if (ShouldEatInput()) return;
             if (!context.performed) return;
             if (GameNetworkManager.Instance != null && GameNetworkManager.Instance.localPlayerController != null)
             {
@@ -63,6 +69,7 @@ namespace SpectateEnemy
 
         private void OnMenuKeyPressed(InputAction.CallbackContext context)
         {
+            if (ShouldEatInput()) return;
             if (!context.performed) return;
             if (GameNetworkManager.Instance != null && GameNetworkManager.Instance.localPlayerController != null)
             {
@@ -76,6 +83,7 @@ namespace SpectateEnemy
 
         private void OnFlashlightKeyPressed(InputAction.CallbackContext context)
         {
+            if (ShouldEatInput()) return;
             if (!context.performed) return;
             if (GameNetworkManager.Instance != null && GameNetworkManager.Instance.localPlayerController != null)
             {
@@ -94,6 +102,7 @@ namespace SpectateEnemy
 
         private void OnZoomOutPressed(InputAction.CallbackContext context)
         {
+            if (ShouldEatInput()) return;
             if (!context.performed) return;
             if (!SpectatingEnemies) return;
             ZoomLevel += 0.1f;
@@ -103,6 +112,7 @@ namespace SpectateEnemy
 
         private void OnZoomInPressed(InputAction.CallbackContext context)
         {
+            if (ShouldEatInput()) return;
             if (!context.performed) return;
             if (!SpectatingEnemies) return;
             ZoomLevel -= 0.1f;
