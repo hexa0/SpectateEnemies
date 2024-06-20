@@ -49,8 +49,15 @@ namespace SpectateEnemy
         }
         private bool ShouldEatInput()
         {
-            PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
-            return !player.inTerminalMenu && !player.isTypingChat && !player.quickMenuManager.isMenuOpen;
+            if (GameNetworkManager.Instance != null && GameNetworkManager.Instance.localPlayerController != null)
+            {
+                PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
+                return player.inTerminalMenu || player.isTypingChat || player.quickMenuManager.isMenuOpen;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void OnSwapKeyPressed(InputAction.CallbackContext context)
